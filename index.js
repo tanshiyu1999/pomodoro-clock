@@ -1,7 +1,10 @@
 //default values
-let time = 5;
-let running = false;
-let cycleLeft = 2;
+let time = 5; // time = 1500
+let setTime = 5; // setTime = 1500
+let restTime = 10; //  restTime = 300
+let running = false; // whether clock is running
+let cycleLeft = 2; // number of cycles
+let processing = false; //whether the app is running
 
 //computed values
 
@@ -9,57 +12,105 @@ let cycleLeft = 2;
 const clock_p = document.getElementById('clock');
 const button_button = document.getElementById('start-pause');
 const cycleLeft_p = document.getElementById('cycle-left');
+const time_span = document.getElementById('pomo-timer');
+const rest_span = document.getElementById('rest-timer');
 let myCountdown;
-let nextActivity; //SHORT BREAK, LONG BREAK, POMODORO TIME
+let SHORT_BREAK = "SHORT BREAK";
+let LONG_BREAK = "LONG BREAK";
+let POMODORO_TIME = "POMODORO TIME"
+let nextActivity = "SHORT BREAK";
+
+// Userinput Next Schedule
+
+//clock that prc
+const clockTimer = time => {
+  let seconds = time % 60;
+  let secondsInMinutes = (time - seconds) / 60;
+  let minutes = secondsInMinutes % 60;
+  let hours = (secondsInMinutes - minutes) / 60;
+  let secondsStr = seconds.toString().padStart(2, '0');
+  let minutesStr = minutes.toString().padStart(2, '0');
+  return `${minutesStr}:${secondsStr}`;
+}
 
 // starting the timer -> goes into checker
 const run = () => {
-  button_button.innerHTML = "Pause"
+  processing = true;
   running = true;
+  button_button.innerHTML = "Pause"
   myCountdown = window.setInterval(countdown, 1000);
-  nextActivity = "SHORT BREAK";
 
   // The code to display the time.
   function countdown() {
     --time;
-    let seconds = time % 60;
-    let secondsInMinutes = (time - seconds) / 60;
-    let minutes = secondsInMinutes % 60;
-    let hours = (secondsInMinutes - minutes) / 60;
-    let secondsStr = seconds.toString().padStart(2, '0');
-    let minutesStr = minutes.toString().padStart(2, '0');
-    clock_p.innerHTML = `${minutesStr}:${secondsStr}`;
+    clock_p.innerHTML = clockTimer(time);
 
     // Check whether still have cycles left.
-    if (time == 0) {
-      window.clearInterval(myCountdown)
-      cycle();
+    if (time <= 0) {
+      clearInterval(myCountdown);
+      checkNext();
     }
   }
 }
 
 // pausing the pomodoro clock
 const stopRunning = () => {
-  button_button.innerHTML = "Resume"
   running = false;
-  window.clearInterval(myCountdown);
+  button_button.innerHTML = "Resume"
+  clearInterval(myCountdown);
 }
 
-// determine whether to run the code again ->
+// determine whether to run the code again based on cycle left
 const cycle = () => {
   if (cycleLeft == 1) {
-    console.log('bye')
-    window.clearInterval(myCountdown);
+    cycleLeft--;
+    cycleLeft_p.innerHTML = cycleLeft;
+    clearInterval(myCountdown);
+    running = false;
+    processing = false;
+  } else {
+    cycleLeft--;
+    time = 6;
+    cycleLeft_p.innerHTML = cycleLeft;
+    time = setTime;
+    run();
   }
-  cycleLeft--;
-  time = 6;
-  cycleLeft_p.innerHTML = cycleLeft;
-  run();
 }
 
-// Taking a break
-const rest = () => {
-  nextActivity = "POMODORO TIME"
+//short break
+const shortBreak = () => {
+  clock_p.innerHTML = clockTimer(restTime);
+  myBreak = window.setInterval(breakCountdown, 1000);
+  function breakCountdown() {
+    --restTime;
+    clock_p.innerHTML = clockTimer(restTime);
+    if (restTime <= 0) {
+      clearInterval(breakCountdown);
+      checkNext();
+    }
+  }
+}
+
+//long break
+const longBreak = () => {
+  return;
+}
+
+// Check what is gonna happen next
+const checkNext = () => {
+  switch (nextActivity) {
+    case SHORT_BREAK:
+      shortBreak();
+      break;
+    case LONG_BREAK:
+      longBreak();
+      break;
+    case POMODORO_TIME:
+      cycle();
+      break;
+    default:
+      console.log("No more things")
+  }
 
 }
 
@@ -73,13 +124,51 @@ const main = () => {
   }
 }
 
-//Cycle up
+//Cycle up & Cycle down
 const cycleUp = () => {
   cycleLeft++;
   cycleLeft_p.innerHTML = cycleLeft;
 }
-
 const cycleDown = () => {
   cycleLeft--;
   cycleLeft_p.innerHTML = cycleLeft;
+}
+
+// Pomo up & Pomo down
+const pomoUp = () => {
+  setTime+=60;
+  time_span.innerHTML = clockTimer(setTime);
+  (processing == false) ? time = setTime: {};
+  clock_p.innerHTML = clockTimer(time);
+}
+const pomoDown = () => {
+  let check = setTime - 60;
+  if (check <= 60) {
+    setTime = 60;
+    time_span.innerHTML = clockTimer(setTime);
+    (processing == false) ? time = setTime: {};
+    clock_p.innerHTML = clockTimer(time);
+    return;
+  }
+  setTime-=60;
+  time_span.innerHTML = clockTimer(setTime);
+  (processing == false) ? time = setTime: {};
+  clock_p.innerHTML = clockTimer(time);
+}
+
+// Rest up & rest Down
+const restUp = () => {
+  restTime+=60;
+  rest_span.innerHTML = clockTimer(restTime);
+}
+
+const restDown = () => {
+  let check = restTime - 60;
+  if (check <= 60) {
+    restTime = 60;
+    rest_span.innerHTML = clockTimer(restTime);
+    return;
+  }
+  restTime -= 60;
+  rest_span.innerHTML = clockTimer(restTime);
 }

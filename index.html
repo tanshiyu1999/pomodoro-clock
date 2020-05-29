@@ -23,22 +23,38 @@
       <div class="d-flex flex-column ">
         <div id="timer" class="p-2">
           <p class="text-center">You're looking like a chug jug</p>
-          <p id="clock" class="timer text-center">00:10</p>
+          <p id="clock" class="timer text-center display-4 font-weight-bold">00:05</p>
         </div>
         <div class="text-center">
           <button id="start-pause" onclick="main()" type="button" class="btn btn-primary my-2" name="start-pause">Start</button>
         </div>
         <div id="customization" class="text-center">
           <div class="row">
-            <p id="cycle-left" class="m-auto">2</p>
-            <button type="button" onclick="cycleUp()" class="btn btn-xs" name="plus"><i class="fas fa-plus"></i></button>
-            <button type="button" onclick="cycleDown()" class="btn btn-xs" name="minus"><i class="fas fa-minus"></i></button>
+            <div class="col-8 align-self-center">
+              <p class="m-auto"><span id="cycle-left">5</span> Cycles Left</p>
+            </div>
+            <div class="col-4 align-self-center">
+              <button type="button" onclick="cycleUp()" class="btn btn-xs p-0" name="plus"><i class="fas fa-plus"></i></button>
+              <button type="button" onclick="cycleDown()" class="btn btn-xs p-0" name="minus"><i class="fas fa-minus"></i></button>
+            </div>
           </div>
-          <div class="">
-            <p>Hello it's me another one</p>
+          <div class="row">
+            <div class="col-8 align-self-center">
+              <p class="m-auto"><span id="pomo-timer" class="">00.05</span> minutes per cycle</p>
+            </div>
+            <div class="col-4 align-self-center">
+              <button type="button" onclick="pomoUp()" class="btn btn-xs p-0" name="plus"><i class="fas fa-plus"></i></button>
+              <button type="button" onclick="pomoDown()" class="btn btn-xs p-0" name="minus"><i class="fas fa-minus"></i></button>
+            </div>
           </div>
-          <div class="">
-            <p>Hello it's me Mario</p>
+          <div class="row">
+            <div class="col-8 align-self-center">
+              <p class="m-auto"><span id="rest-timer">05:00</span> minutes rest</p>
+            </div>
+            <div class="col-4 align-self-center">
+              <button type="button" onclick="restUp()" class="btn btn-xs p-0" name="plus"><i class="fas fa-plus"></i></button>
+              <button type="button" onclick="restDown()" class="btn btn-xs p-0" name="minus"><i class="fas fa-minus"></i></button>
+            </div>
           </div>
         </div>
       </div>
