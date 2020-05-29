@@ -14,6 +14,7 @@ const button_button = document.getElementById('start-pause');
 const cycleLeft_p = document.getElementById('cycle-left');
 const time_span = document.getElementById('pomo-timer');
 const rest_span = document.getElementById('rest-timer');
+const state_p = document.getElementById('state-indicator')
 let myCountdown;
 let SHORT_BREAK = "SHORT BREAK";
 let LONG_BREAK = "LONG BREAK";
@@ -37,6 +38,7 @@ const clockTimer = time => {
 const run = () => {
   processing = true;
   running = true;
+  state_p.innerHTML = "POMODORO IN SESSION"
   button_button.innerHTML = "Pause"
   myCountdown = window.setInterval(countdown, 1000);
 
@@ -69,8 +71,9 @@ const cycle = () => {
     running = false;
     processing = false;
   } else {
+    console.log(cycleLeft);
     cycleLeft--;
-    time = 6;
+    console.log(cycleLeft)
     cycleLeft_p.innerHTML = cycleLeft;
     time = setTime;
     run();
@@ -79,13 +82,16 @@ const cycle = () => {
 
 //short break
 const shortBreak = () => {
+  state_p.innerHTML = "Rest In Peace"
   clock_p.innerHTML = clockTimer(restTime);
   myBreak = window.setInterval(breakCountdown, 1000);
   function breakCountdown() {
     --restTime;
     clock_p.innerHTML = clockTimer(restTime);
     if (restTime <= 0) {
-      clearInterval(breakCountdown);
+      console.log('hi')
+      clearInterval(myBreak);
+      nextActivity = POMODORO_TIME;
       checkNext();
     }
   }
@@ -116,7 +122,6 @@ const checkNext = () => {
 
 // run at the start
 const main = () => {
-  clock_p.innerHTML;
   if (running == false) {
     run();
   } else if (running == true) {
@@ -130,7 +135,9 @@ const cycleUp = () => {
   cycleLeft_p.innerHTML = cycleLeft;
 }
 const cycleDown = () => {
-  cycleLeft--;
+  if (cycleLeft > 0) {
+    cycleLeft--;
+  }
   cycleLeft_p.innerHTML = cycleLeft;
 }
 
