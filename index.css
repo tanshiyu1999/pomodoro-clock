@@ -2,9 +2,6 @@ html, body {
   height: 100%;
 }
 
-#background-color {
-  background-color: #c8e8eb;
-}
 
 #timer {
   width: 300px;
@@ -24,4 +21,20 @@ html, body {
   width: 300px;
   border-radius: 20px;
 
+}
+
+.large-text {
+  font-size: 20px;
+}
+
+.pomodoro-color {
+  background-color: #ff6347;
+}
+
+.paused-color {
+  background-color: #66b0ff;
+}
+
+.nothing-color {
+  background-color: #808080;
 }

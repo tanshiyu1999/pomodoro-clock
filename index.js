@@ -5,6 +5,7 @@ let restTime = 10; //  restTime = 300
 let running = false; // whether clock is running
 let cycleLeft = 2; // number of cycles
 let processing = false; //whether the app is running
+let paused = false; //whether programme is paused
 
 //computed values
 
@@ -36,6 +37,7 @@ const clockTimer = time => {
 
 // starting the timer -> goes into checker
 const run = () => {
+  paused = false;
   processing = true;
   running = true;
   state_p.innerHTML = "POMODORO IN SESSION"
@@ -73,7 +75,7 @@ const cycle = () => {
   } else {
     console.log(cycleLeft);
     cycleLeft--;
-    console.log(cycleLeft)
+    console.log(cycleLeft);
     cycleLeft_p.innerHTML = cycleLeft;
     time = setTime;
     run();
@@ -82,14 +84,14 @@ const cycle = () => {
 
 //short break
 const shortBreak = () => {
-  state_p.innerHTML = "Rest In Peace"
+  paused = true;
+  state_p.innerHTML = "Rest In Peace";
   clock_p.innerHTML = clockTimer(restTime);
   myBreak = window.setInterval(breakCountdown, 1000);
   function breakCountdown() {
     --restTime;
     clock_p.innerHTML = clockTimer(restTime);
     if (restTime <= 0) {
-      console.log('hi')
       clearInterval(myBreak);
       nextActivity = POMODORO_TIME;
       checkNext();
@@ -122,10 +124,14 @@ const checkNext = () => {
 
 // run at the start
 const main = () => {
-  if (running == false) {
-    run();
-  } else if (running == true) {
-    stopRunning();
+  if (paused == false) {
+    if (running == false) {
+      run();
+    } else if (running == true) {
+      stopRunning();
+    }
+  } else if (paused == true) {
+
   }
 }
 
@@ -178,4 +184,8 @@ const restDown = () => {
   }
   restTime -= 60;
   rest_span.innerHTML = clockTimer(restTime);
+}
+
+const insertNum = () => {
+
 }

@@ -19,7 +19,7 @@
     <title>Pomodoro Timer</title>
   </head>
   <body>
-    <div id="background-color" class="d-flex h-100 justify-content-center align-items-center">
+    <div id="background-color" class="d-flex h-100 justify-content-center align-items-center pomodoro-color">
       <div class="d-flex flex-column ">
         <div id="timer" class="p-2">
           <p class="text-center">You're looking like a chug jug</p>
@@ -32,7 +32,7 @@
         <div id="customization" class="text-center">
           <div class="row">
             <div class="col-8 align-self-center">
-              <p class="m-auto"><span id="cycle-left">2</span> Cycles Left</p>
+              <p class="m-auto"><span id="cycle-left" class="large-text" ondblclick="insertNum()">2</span> Cycles Left</p>
             </div>
             <div class="col-4 align-self-center">
               <button type="button" onclick="cycleUp()" class="btn btn-xs p-0" name="plus"><i class="fas fa-plus"></i></button>
@@ -41,7 +41,7 @@
           </div>
           <div class="row">
             <div class="col-8 align-self-center">
-              <p class="m-auto"><span id="pomo-timer" class="">00.05</span> minutes per cycle</p>
+              <p class="m-auto"><span id="pomo-timer" class="large-text">00.05</span> minutes per cycle</p>
             </div>
             <div class="col-4 align-self-center">
               <button type="button" onclick="pomoUp()" class="btn btn-xs p-0" name="plus"><i class="fas fa-plus"></i></button>
@@ -50,7 +50,7 @@
           </div>
           <div class="row">
             <div class="col-8 align-self-center">
-              <p class="m-auto"><span id="rest-timer">05:00</span> minutes rest</p>
+              <p class="m-auto"><span id="rest-timer" class="large-text">05:00</span> minutes rest</p>
             </div>
             <div class="col-4 align-self-center">
               <button type="button" onclick="restUp()" class="btn btn-xs p-0" name="plus"><i class="fas fa-plus"></i></button>
